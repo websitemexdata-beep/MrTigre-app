@@ -1,1 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taquería Mr. Tigre — Menú Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --negro: #080808;
+  --naranja: #ff6b00;
+  --naranja2: #ffaa00;
+  --verde: #00e676;
+  --rojo: #e53935;
+  --blanco: #ffffff;
+  --gris: #1a1a1a;
+  --gris2: #252525;
+}
 
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow Condensed', sans-serif;
+  background: var(--negro);
+  color: var(--blanco);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── LLAMAS ANIMADAS ── */
+.flames-bg {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 220px;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.25;
+}
+.flame {
+  position: absolute;
+  bottom: 0;
+  width: 60px;
+  border-radius: 50% 50% 20% 20%;
+  animation: flameUp var(--d) ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+@keyframes flameUp {
+  0%   { height: var(--h1); opacity: 0.6; transform: scaleX(1) rotate(-2deg); }
+  100% { height: var(--h2); opacity: 1;   transform: scaleX(0.85) rotate(2deg); }
+}
+
+/* ── HEADER ── */
+header {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(180deg, #0d0d0d 0%, #111 100%);
+  border-bottom: 3px solid var(--naranja);
+  padding: 18px 20px 14px;
+  text-align: center;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 4px;
+}
+.tiger-emoji {
+  font-size: 52px;
+  filter: drop-shadow(0 0 12px rgba(255,107,0,0.8));
+  animation: tigerPulse 2.5s ease-in-out infinite;
+}
+@keyframes tigerPulse {
+  0%,100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255,107,0,0.8)); }
+  50%      { transform: scale(1.06); filter: drop-shadow(0 0 22px rgba(255,170,0,1)); }
+}
+.header-title {
+  font-family: 'Black Ops One', cursive;
+  font-size: clamp(32px, 8vw, 58px);
+  line-height: 1;
+  background: linear-gradient(135deg, var(--naranja) 0%, var(--naranja2) 50%, var(--naranja) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  letter-spacing: 2px;
+}
+.header-sub {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: var(--verde);
+  margin-top: 2px;
+}
+.header-tel {
+  font-size: 15px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+.header-tel span { color: var(--naranja2); font-weight: 700; }
+
+/* ── NAV CATEGORÍAS ── */
+.cat-nav {
+  position: sticky;
+  top: 32px;
+  z-index: 50;
+  background: rgba(8,8,8,0.97);
+  border-bottom: 2px solid rgba(255,107,0,0.3);
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.cat-nav::-webkit-scrollbar { display: none; }
+.cat-btn {
+  flex-shrink: 0;
+  background: var(--gris2);
+  border: 1px solid rgba(255,107,0,0.3);
+  color: rgba(255,255,255,0.6);
+  padding: 7px 16px;
+  border-radius: 4px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 15px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cat-btn.active, .cat-btn:hover {
+  background: var(--naranja);
+  color: var(--negro);
+  border-color: var(--naranja);
+}
+
+/* ── MAIN ── */
+main {
+  position: relative;
+  z-index: 5;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px 12px 140px;
+}
+
+/* ── SECCIÓN ── */
+.section {
+  margin-bottom: 36px;
+  animation: fadeIn 0.4s ease both;
+}
+@keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+
+.section-title {
+  font-family: 'Black Ops One', cursive;
+  font-size: clamp(22px, 6vw, 34px);
+  background: linear-gradient(90deg, var(--naranja), var(--naranja2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(255,107,0,0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .sec-icon { font-size: 26px; -webkit-text-fill-color: initial; }
+
+/* ── CARDS ── */
+.items-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.item-card {
+  background: var(--gris2);
+  border: 1px solid rgba(255,107,0,0.15);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+.item-card:hover {
+  border-color: var(--naranja);
+  background: #1e1a16;
+}
+.item-card.selected {
+  border-color: var(--verde);
+  background: #0d1a10;
+}
+
+.item-info { flex: 1; }
+.item-name {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  color: var(--verde);
+  line-height: 1;
+}
+.item-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 3px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.item-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.item-price {
+  font-family: 'Black Ops One', cursive;
+  font-size: 22px;
+  color: var(--naranja2);
+  white-space: nowrap;
+}
+
+/* ── CONTROLES CANTIDAD ── */
+.qty-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.qty-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--naranja);
+  background: transparent;
+  color: var(--naranja);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  font-weight: 700;
+}
+.qty-btn:hover { background: var(--naranja); color: var(--negro); }
+.qty-num {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 20px;
+  min-width: 24px;
+  text-align: center;
+  color: var(--blanco);
+}
+
+/* ── PROMOS ── */
+.promos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.promo-card {
+  background: linear-gradient(135deg, #1a0a00, #2a1200);
+  border: 2px solid var(--rojo);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.promo-card::before {
+  content: '🔥';
+  position: absolute;
+  top: 6px; right: 8px;
+  font-size: 16px;
+  opacity: 0.6;
+}
+.promo-card:hover { border-color: var(--naranja); transform: translateY(-2px); }
+.promo-card.selected { border-color: var(--verde); background: linear-gradient(135deg,#0a1a08,#102010); }
+.promo-num {
+  font-family: 'Black Ops One', cursive;
+  font-size: 42px;
+  color: var(--naranja);
+  line-height: 1;
+}
+.promo-label {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+.promo-price {
+  font-family: 'Black Ops One', cursive;
+  font-size: 22px;
+  color: var(--naranja2);
+  margin-top: 6px;
+}
+
+/* ── CARRITO FLOTANTE ── */
+#cart-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  background: linear-gradient(0deg, #0d0d0d 60%, rgba(13,13,13,0.95) 100%);
+  border-top: 2px solid var(--naranja);
+  padding: 12px 16px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+#cart-bar.visible { transform: translateY(0); }
+
+.cart-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.cart-count {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 2px;
+}
+.cart-total-label {
+  font-family: 'Black Ops One', cursive;
+  font-size: 26px;
+  color: var(--naranja2);
+}
+
+.cart-items-preview {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 10px;
+  max-height: 50px;
+  overflow-y: auto;
+  letter-spacing: 0.5px;
+}
+
+.cart-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-wa {
+  flex: 1;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-family: 'Black Ops One', cursive;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
+
+.btn-clear {
+  background: var(--gris2);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-clear:hover { border-color: var(--rojo); color: var(--rojo); }
+
+/* ── MODAL DATOS ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-box {
+  background: #111;
+  border: 2px solid var(--naranja);
+  border-radius: 20px 20px 0 0;
+  padding: 28px 20px 32px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  transform: translateY(60px);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.modal-overlay.open .modal-box { transform: translateY(0); }
+
+.modal-title {
+  font-family: 'Black Ops One', cursive;
+  font-size: 24px;
+  color: var(--naranja);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.form-group { margin-bottom: 14px; }
+.form-label {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.5);
+  display: block;
+  margin-bottom: 5px;
+}
+.form-input {
+  width: 100%;
+  background: var(--gris2);
+  border: 1px solid rgba(255,107,0,0.3);
+  border-radius: 6px;
+  padding: 12px 14px;
+  color: white;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--naranja); }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.btn-confirmar {
+  flex: 1;
+  background: linear-gradient(135deg, var(--naranja), #c25200);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-family: 'Black Ops One', cursive;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-confirmar:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,107,0,0.4); }
+.btn-cancelar {
+  background: var(--gris2);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 15px 18px;
+  border-radius: 8px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ── BADGE CARRITO ── */
+.cart-fab {
+  position: fixed;
+  top: 16px; right: 16px;
+  z-index: 60;
+  background: var(--naranja);
+  color: var(--negro);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(255,107,0,0.5);
+  transition: transform 0.2s;
+}
+.cart-fab:hover { transform: scale(1.1); }
+.cart-fab .badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  background: var(--verde);
+  color: var(--negro);
+  font-family: 'Bebas Neue', cursive;
+  font-size: 13px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  display: none;
+}
+.cart-fab .badge.show { display: flex; }
+
+/* ── CINTA PUBLICITARIA ── */
+.ticker-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: linear-gradient(90deg, var(--rojo), #b71c1c, var(--rojo));
+  overflow: hidden;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid var(--naranja2);
+}
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 28s linear infinite;
+  will-change: transform;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-item {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 15px;
+  letter-spacing: 3px;
+  color: #fff;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ticker-item .t-icon { font-size: 14px; }
+.ticker-item .t-price { color: var(--naranja2); font-size: 16px; }
+.ticker-sep {
+  color: rgba(255,255,255,0.3);
+  font-size: 18px;
+  padding: 0 4px;
+}
+
+/* ── BARRA SOCIAL + LLAMADA ── */
+.social-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 99;
+  /* Se mostrará debajo del cart-bar cuando no hay pedido */
+}
+/* Ajuste del header para dar espacio a la cinta */
+header { margin-top: 32px; }
+.cat-nav { top: 32px; }
+
+/* Botones redes dentro del modal */
+.social-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  justify-content: center;
+}
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1877f2;
+  color: white;
+  text-decoration: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 15px;
+  letter-spacing: 2px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.social-link:hover { opacity: 0.85; transform: translateY(-1px); }
+.social-link.fb { background: #1877f2; }
+
+.btn-call {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #00c853, #00695c);
+  color: white;
+  text-decoration: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 15px;
+  letter-spacing: 2px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-call:hover { opacity: 0.85; transform: translateY(-1px); }
+
+/* Iconos flotantes laterales (desktop) */
+.side-actions {
+  position: fixed;
+  right: 14px;
+  bottom: 90px;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.side-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.side-btn:hover { transform: scale(1.12); }
+.side-btn.fb  { background: #1877f2; }
+.side-btn.tel { background: #00c853; }
+
+/* GPS en modal */
+.gps-btn {
+  width: 100%;
+  background: var(--gris2);
+  border: 1px solid rgba(0,230,118,0.4);
+  color: var(--verde);
+  padding: 11px 14px;
+  border-radius: 6px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  margin-top: 6px;
+}
+.gps-btn:hover { border-color: var(--verde); background: #0d1a10; }
+.gps-btn.loading { opacity: 0.6; pointer-events: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 400px) {
+  .promos-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── SCROLL SUAVE TOP ── */
+.scroll-top {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 0;
+}
+
+.ticker-wrap{position:fixed;top:0;left:0;right:0;z-index:300;background:linear-gradient(90deg,#b71c1c,#c62828,#b71c1c);overflow:hidden;height:32px;display:flex;align-items:center;border-bottom:2px solid #ffaa00;box-shadow:0 2px 12px rgba(183,28,28,.6)}
+.ticker-track{display:flex;white-space:nowrap;animation:ticker 30s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{font-family:'Bebas Neue',cursive;font-size:14px;letter-spacing:3px;color:#fff;padding:0 20px;display:inline-flex;align-items:center;gap:8px}
+.t-price{color:#ffaa00}
+.ticker-sep{color:rgba(255,255,255,.3)}
+.side-actions{position:fixed;right:14px;bottom:90px;z-index:90;display:flex;flex-direction:column;gap:10px}
+.side-btn{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.5);text-decoration:none;transition:transform .2s}
+.side-btn:hover{transform:scale(1.12)}
+.side-btn.fb{background:#1877f2}
+.side-btn.tel{background:#00c853}
+.gps-btn{width:100%;background:#252525;border:1px solid rgba(0,230,118,.35);color:#00e676;padding:10px 14px;border-radius:6px;font-size:15px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;margin-top:6px;font-family:'Barlow Condensed',sans-serif}
+.gps-btn:hover{border-color:#00e676;background:#0d1a10}
+.gps-btn:disabled{opacity:.5;pointer-events:none}
+.social-row{display:flex;gap:10px;margin-top:14px}
+.social-link,.btn-call{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;color:#fff;text-decoration:none;padding:10px;border-radius:8px;font-family:'Bebas Neue',cursive;font-size:14px;letter-spacing:2px;transition:opacity .2s}
+.social-link:hover,.btn-call:hover{opacity:.85}
+.social-link.fb{background:#1877f2}
+.btn-call{background:linear-gradient(135deg,#00c853,#00695c)}
+
+</style>
+</head>
+<body>
+
+<!-- CINTA -->
+<div class="ticker-wrap"><div class="ticker-track" id="tickerTrack"></div></div>
+<div class="side-actions"><a class="side-btn fb" href="https://www.facebook.com/taqueriamrtigremx/" target="_blank"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a class="side-btn tel" href="tel:8993010135"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></a></div>
+
+<!-- Llamas de fondo -->
+<div class="flames-bg" id="flamesBg"></div>
+
+<!-- FAB carrito -->
+<button class="cart-fab" onclick="toggleCart()" title="Ver pedido">
+  🛒
+  <span class="badge" id="cartBadge">0</span>
+</button>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="tiger-emoji">🐯</div>
+    <div>
+      <div class="header-title">MR. TIGRE</div>
+      <div class="header-sub">Taquería · Menú Digital</div>
+    </div>
+  </div>
+  <div class="header-tel">📞 <span>899 301 0135</span> · Servicio a domicilio y maquiladoras</div>
+</header>
+
+<!-- NAV CATEGORÍAS -->
+<nav class="cat-nav" id="catNav">
+  <button class="cat-btn active" onclick="scrollTo('tortas')">🌯 Tortas</button>
+  <button class="cat-btn" onclick="scrollTo('hamburguesas')">🍔 Hamburguesas</button>
+  <button class="cat-btn" onclick="scrollTo('espadas-gringas')">⚔️ Espadas/Gringas</button>
+  <button class="cat-btn" onclick="scrollTo('sincronizadas')">🫓 Sincronizadas</button>
+  <button class="cat-btn" onclick="scrollTo('parrilladas')">🔥 Parrilladas</button>
+  <button class="cat-btn" onclick="scrollTo('tacos')">🌮 Tacos</button>
+  <button class="cat-btn" onclick="scrollTo('carne-asada')">🥩 Carne Asada</button>
+  <button class="cat-btn" onclick="scrollTo('promos')">🎯 Promos</button>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- TORTAS GIGANTES -->
+  <section class="section" id="tortas">
+    <div class="section-title"><span class="sec-icon">🌯</span> Tortas Gigantes</div>
+    <div class="items-grid" id="grid-tortas"></div>
+  </section>
+
+  <!-- HAMBURGUESAS -->
+  <section class="section" id="hamburguesas">
+    <div class="section-title"><span class="sec-icon">🍔</span> Hamburguesas Gigantes</div>
+    <div class="items-grid" id="grid-hamburguesas"></div>
+  </section>
+
+  <!-- ESPADAS Y GRINGAS -->
+  <section class="section" id="espadas-gringas">
+    <div class="section-title"><span class="sec-icon">⚔️</span> Espadas & Gringas</div>
+    <div class="items-grid" id="grid-espadas-gringas"></div>
+  </section>
+
+  <!-- SINCRONIZADAS -->
+  <section class="section" id="sincronizadas">
+    <div class="section-title"><span class="sec-icon">🫓</span> Sincronizadas</div>
+    <div class="items-grid" id="grid-sincronizadas"></div>
+  </section>
+
+  <!-- PARRILLADAS -->
+  <section class="section" id="parrilladas">
+    <div class="section-title"><span class="sec-icon">🔥</span> Parrilladas</div>
+    <div class="items-grid" id="grid-parrilladas"></div>
+  </section>
+
+  <!-- TACOS -->
+  <section class="section" id="tacos">
+    <div class="section-title"><span class="sec-icon">🌮</span> Tacos (orden)</div>
+    <div class="items-grid" id="grid-tacos"></div>
+  </section>
+
+  <!-- CARNE ASADA -->
+  <section class="section" id="carne-asada">
+    <div class="section-title"><span class="sec-icon">🥩</span> Carne Asada</div>
+    <div class="items-grid" id="grid-carne-asada"></div>
+  </section>
+
+  <!-- PROMOS -->
+  <section class="section" id="promos">
+    <div class="section-title"><span class="sec-icon">🎯</span> Promociones</div>
+    <div class="promos-grid" id="grid-promos"></div>
+  </section>
+
+</main>
+
+<!-- CARRITO FLOTANTE -->
+<div id="cart-bar">
+  <div class="cart-summary">
+    <div>
+      <div class="cart-count" id="cartCount">0 PRODUCTOS</div>
+      <div class="cart-items-preview" id="cartPreview"></div>
+    </div>
+    <div class="cart-total-label" id="cartTotal">$0</div>
+  </div>
+  <div class="cart-actions">
+    <button class="btn-clear" onclick="clearCart()">Limpiar</button>
+    <button class="btn-wa" onclick="abrirModal()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      PEDIR POR WHATSAPP
+    </button>
+  </div>
+</div>
+
+<!-- MODAL DATOS -->
+<div class="modal-overlay" id="modalOverlay" onclick="cerrarModalFuera(event)">
+  <div class="modal-box">
+    <div class="modal-title">📋 Datos del Pedido</div>
+    <div class="form-group">
+      <label class="form-label">Tu Nombre</label>
+      <input class="form-input" id="inputNombre" type="text" placeholder="Ej: Juan García" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mesa o Dirección</label>
+      <input class="form-input" id="inputMesa" type="text" placeholder="Ej: Mesa 3 / Calle Roble 22" />
+      <button class="gps-btn" id="gpsBtn" onclick="usarGPS()">📍 Usar mi ubicación actual (GPS)</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notas del pedido (opcional)</label>
+      <input class="form-input" id="inputNotas" type="text" placeholder="Ej: sin cebolla, extra salsa..." />
+    </div>
+    <div class="social-row"><a class="social-link fb" href="https://www.facebook.com/taqueriamrtigremx/" target="_blank">📘 Facebook</a><a class="btn-call" href="tel:8993010135">📞 Llamar</a></div>
+    <div class="modal-actions">
+      <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-confirmar" onclick="enviarWA()">🐯 ¡Enviar Pedido!</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── WHATSAPP ───
+const WA_NUM = "528993010135";
+
+// ─── MENÚ DATA ───
+const menu = {
+  "grid-tortas": [
+    { nombre: "Mr. Tigre", desc: "Bisteck · Trompo · Salchichón · Jamón · Asadero · Q.Amarillo · Chorizo · Huevo", precio: 150 },
+    { nombre: "Hawaiana", desc: "Bisteck · Tocino · Jamón · Q.Asadero · Piña", precio: 140 },
+    { nombre: "Mexicana", desc: "Bisteck · Tocino · Jamón · Q.Asadero · Chorizo", precio: 140 },
+    { nombre: "Poblana", desc: "Trompo · Salchichón · Jamón · Q.Asadero · Huevo", precio: 140 },
+    { nombre: "Zacatecana", desc: "Bisteck · Salchichón · Q.Asadero", precio: 140 },
+    { nombre: "Toluqueña", desc: "Bisteck · Jamón · Q.Asadero", precio: 140 },
+    { nombre: "Cubana", desc: "Trompo · Jamón · Q.Asadero", precio: 140 },
+    { nombre: "Carne Asada", desc: "Jamón · Queso", precio: 120 },
+  ],
+  "grid-hamburguesas": [
+    { nombre: "Sencilla", desc: "Carne · Jamón · Q.Asadero", precio: 100 },
+    { nombre: "Especial", desc: "Carne · Jamón · Q.Asadero · Q.Amarillo · Tocino · Salchicha p/asar · Huevo", precio: 120 },
+  ],
+  "grid-espadas-gringas": [
+    { nombre: "Espadas (orden)", desc: "Bisteck · Trompo · Mixto", precio: 120 },
+    { nombre: "Gringas (orden)", desc: "Bisteck · Trompo · Mixto", precio: 120 },
+  ],
+  "grid-sincronizadas": [
+    { nombre: "Sincronizada Chica", desc: "Bisteck · Trompo · Mixto", precio: 120 },
+    { nombre: "Sincronizada Grande", desc: "Bisteck · Trompo · Mixto", precio: 150 },
+  ],
+  "grid-parrilladas": [
+    { nombre: "En Tortilla — Chica", desc: "Bisteck · Tocino · Jamón · Q.Asadero · Q.Amarillo", precio: 120 },
+    { nombre: "En Tortilla — Grande", desc: "Bisteck · Tocino · Jamón · Q.Asadero · Q.Amarillo", precio: 150 },
+    { nombre: "En Plato — Chica", desc: "Bisteck · Tocino · Jamón · Q.Asadero · Q.Amarillo", precio: 130 },
+    { nombre: "En Plato — Grande", desc: "Bisteck · Tocino · Jamón · Q.Asadero · Q.Amarillo", precio: 170 },
+  ],
+  "grid-tacos": [
+    { nombre: "Bisteck / Mixtos (Maíz)", desc: "Orden de tacos en tortilla de maíz", precio: 120 },
+    { nombre: "Bisteck / Mixtos (Harina)", desc: "Orden de tacos en tortilla de harina", precio: 130 },
+    { nombre: "Trompo (Maíz)", desc: "Orden de tacos de trompo en tortilla de maíz", precio: 110 },
+    { nombre: "Trompo (Harina)", desc: "Orden de tacos de trompo en tortilla de harina", precio: 120 },
+    { nombre: "Al Tocino (Maíz)", desc: "Orden de tacos al tocino en tortilla de maíz", precio: 120 },
+    { nombre: "Al Tocino (Harina)", desc: "Orden de tacos al tocino en tortilla de harina", precio: 140 },
+  ],
+  "grid-carne-asada": [
+    { nombre: "Carne Asada (Maíz)", desc: "Orden de carne asada en tortilla de maíz", precio: 120 },
+    { nombre: "Carne Asada (Harina)", desc: "Orden de carne asada en tortilla de harina", precio: 130 },
+    { nombre: "Papa Asada c/Carne", desc: "Papa asada con carne incluida", precio: 160 },
+    { nombre: "Papa Asada Sencilla", desc: "Papa asada sin carne", precio: 140 },
+    { nombre: "Tacos Carne Asada", desc: "Tacos de carne asada", precio: 120 },
+  ],
+};
+
+const promos = [
+  { num: "2", label: "Hamburguesas", precio: 140 },
+  { num: "10", label: "Tacos de Trompo", precio: 120 },
+  { num: "2", label: "Sincronizadas", precio: 160 },
+];
+
+// ─── CARRITO ───
+let carrito = {}; // key -> { nombre, precio, qty }
+let carritoVisible = false;
+
+function getKey(nombre) { return nombre.replace(/\s+/g,'-').toLowerCase(); }
+
+function add(nombre, precio) {
+  const k = getKey(nombre);
+  if (!carrito[k]) carrito[k] = { nombre, precio, qty: 0 };
+  carrito[k].qty++;
+  updateCart();
+}
+
+function remove(nombre) {
+  const k = getKey(nombre);
+  if (!carrito[k]) return;
+  carrito[k].qty--;
+  if (carrito[k].qty <= 0) delete carrito[k];
+  updateCart();
+}
+
+function getQty(nombre) {
+  const k = getKey(nombre);
+  return carrito[k] ? carrito[k].qty : 0;
+}
+
+function updateCart() {
+  const items = Object.values(carrito);
+  const total = items.reduce((s, i) => s + i.precio * i.qty, 0);
+  const count = items.reduce((s, i) => s + i.qty, 0);
+
+  document.getElementById('cartTotal').textContent = '$' + total.toLocaleString();
+  document.getElementById('cartCount').textContent = count + (count === 1 ? ' PRODUCTO' : ' PRODUCTOS');
+  document.getElementById('cartPreview').textContent = items.map(i => `${i.qty}x ${i.nombre}`).join(' · ');
+
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = count;
+  badge.classList.toggle('show', count > 0);
+
+  const bar = document.getElementById('cart-bar');
+  if (count > 0) { bar.classList.add('visible'); carritoVisible = true; }
+  else { bar.classList.remove('visible'); carritoVisible = false; }
+
+  // Actualizar nums en cards
+  document.querySelectorAll('.qty-num').forEach(el => {
+    const nombre = el.dataset.nombre;
+    const q = getQty(nombre);
+    el.textContent = q;
+    el.closest('.item-card')?.classList.toggle('selected', q > 0);
+    el.closest('.promo-card')?.classList.toggle('selected', q > 0);
+  });
+}
+
+function toggleCart() {
+  const bar = document.getElementById('cart-bar');
+  bar.classList.toggle('visible');
+}
+
+function clearCart() {
+  carrito = {};
+  updateCart();
+}
+
+// ─── RENDER ITEMS ───
+function renderItems(gridId, items) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  items.forEach(item => {
+    const q = getQty(item.nombre);
+    const card = document.createElement('div');
+    card.className = 'item-card' + (q > 0 ? ' selected' : '');
+    card.innerHTML = `
+      <div class="item-info">
+        <div class="item-name">${item.nombre}</div>
+        ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+      </div>
+      <div class="item-right">
+        <div class="item-price">$${item.precio}</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="remove('${item.nombre}');renderAll()">−</button>
+          <span class="qty-num" data-nombre="${item.nombre}">${q}</span>
+          <button class="qty-btn" onclick="add('${item.nombre}',${item.precio});renderAll()">+</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderPromos() {
+  const grid = document.getElementById('grid-promos');
+  promos.forEach(p => {
+    const nombre = p.num + ' ' + p.label;
+    const card = document.createElement('div');
+    card.className = 'promo-card';
+    card.innerHTML = `
+      <div class="promo-num">${p.num}</div>
+      <div class="promo-label">${p.label}</div>
+      <div class="promo-price">$${p.precio}</div>
+      <div class="qty-ctrl" style="justify-content:center;margin-top:10px">
+        <button class="qty-btn" onclick="remove('${nombre}');renderAll()" style="border-color:var(--rojo);color:var(--rojo)">−</button>
+        <span class="qty-num" data-nombre="${nombre}">0</span>
+        <button class="qty-btn" onclick="add('${nombre}',${p.precio});renderAll()">+</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderAll() {
+  // Clear grids
+  Object.keys(menu).forEach(id => {
+    const g = document.getElementById(id);
+    if (g) g.innerHTML = '';
+  });
+  document.getElementById('grid-promos').innerHTML = '';
+
+  // Re-render
+  Object.entries(menu).forEach(([id, items]) => renderItems(id, items));
+  renderPromos();
+  updateCart();
+}
+
+// ─── SCROLL A SECCIÓN ───
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ─── MODAL ───
+function abrirModal() {
+  const items = Object.values(carrito);
+  if (items.length === 0) { alert('Agrega productos antes de pedir 🌮'); return; }
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function cerrarModalFuera(e) {
+  if (e.target === document.getElementById('modalOverlay')) cerrarModal();
+}
+
+// ─── ENVIAR WA ───
+function enviarWA() {
+  const nombre = document.getElementById('inputNombre').value.trim();
+  const mesa = document.getElementById('inputMesa').value.trim();
+  const notas = document.getElementById('inputNotas').value.trim();
+
+  if (!nombre) { alert('Por favor escribe tu nombre 😊'); return; }
+
+  const items = Object.values(carrito);
+  const total = items.reduce((s, i) => s + i.precio * i.qty, 0);
+
+  let msg = `🐯 *TAQUERÍA MR. TIGRE* 🐯\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `👤 *Cliente:* ${nombre}\n`;
+  if (mesa) msg += `📍 *Mesa / Dirección:* ${mesa}\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `📋 *PEDIDO:*\n`;
+  items.forEach(i => {
+    msg += `  ${i.qty}x ${i.nombre} — $${(i.precio * i.qty).toLocaleString()}\n`;
+  });
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `💰 *TOTAL: $${total.toLocaleString()} MXN*\n`;
+  if (notas) msg += `📝 *Notas:* ${notas}\n`;
+  msg += `\n¡Gracias! 🙏🔥`;
+
+  window.open(`https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`, '_blank');
+  cerrarModal();
+}
+
+
+// CINTA
+const msgs=[{icon:'🍔',t:'2 HAMBURGUESAS',p:'$140'},{icon:'🌮',t:'10 TACOS DE TROMPO',p:'$120'},{icon:'🫓',t:'2 SINCRONIZADAS',p:'$160'},{icon:'🐯',t:'TAQUERIA MR. TIGRE',p:''},{icon:'🔥',t:'SERVICIO A DOMICILIO Y MAQUILADORAS',p:''},{icon:'📞',t:'LLAMA AL 899 301 0135',p:''}];
+const tickerEl=document.getElementById('tickerTrack');
+[...msgs,...msgs].forEach(p=>{const s=document.createElement('span');s.className='ticker-item';s.innerHTML=p.icon+' '+p.t+(p.p?' <span class="t-price">'+p.p+'</span>':'')+' <span class="ticker-sep">|</span>';tickerEl.appendChild(s);});
+// GPS
+function usarGPS(){const btn=document.getElementById('gpsBtn');const inp=document.getElementById('inputMesa');if(!navigator.geolocation){alert('Tu navegador no soporta GPS');return;}btn.disabled=true;btn.textContent='⏳ Obteniendo ubicación...';navigator.geolocation.getCurrentPosition(pos=>{const lat=pos.coords.latitude.toFixed(6);const lng=pos.coords.longitude.toFixed(6);inp.value='https://maps.google.com/?q='+lat+','+lng;btn.textContent='✅ Ubicación capturada';setTimeout(()=>{btn.disabled=false;btn.textContent='📍 Usar mi ubicación actual (GPS)';},3000);},()=>{alert('No se pudo. Escríbela manualmente 📝');btn.disabled=false;btn.textContent='📍 Usar mi ubicación actual (GPS)';},{enableHighAccuracy:true,timeout:10000});}
+
+// ─── LLAMAS ───
+const flamesBg = document.getElementById('flamesBg');
+const colors = ['#ff4500','#ff6b00','#ffaa00','#ff2200'];
+for (let i = 0; i < 14; i++) {
+  const f = document.createElement('div');
+  f.className = 'flame';
+  const h1 = 60 + Math.random() * 80;
+  const h2 = h1 + 40 + Math.random() * 60;
+  f.style.cssText = `
+    left: ${i * 7.5}%;
+    width: ${40 + Math.random() * 40}px;
+    background: radial-gradient(ellipse at bottom, ${colors[Math.floor(Math.random()*colors.length)]}, transparent 80%);
+    --h1: ${h1}px;
+    --h2: ${h2}px;
+    --d: ${1.5 + Math.random() * 2}s;
+    animation-delay: ${Math.random() * 2}s;
+  `;
+  flamesBg.appendChild(f);
+}
+
+// ─── INIT ───
+renderAll();
+</script>
+</body>
+</html>
