@@ -695,14 +695,14 @@ header { margin-top: 32px; }
 
 <!-- NAV CATEGORÍAS -->
 <nav class="cat-nav" id="catNav">
-  <button class="cat-btn active" onclick="scrollTo('tortas')">🌯 Tortas</button>
-  <button class="cat-btn" onclick="scrollTo('hamburguesas')">🍔 Hamburguesas</button>
-  <button class="cat-btn" onclick="scrollTo('espadas-gringas')">⚔️ Espadas/Gringas</button>
-  <button class="cat-btn" onclick="scrollTo('sincronizadas')">🫓 Sincronizadas</button>
-  <button class="cat-btn" onclick="scrollTo('parrilladas')">🔥 Parrilladas</button>
-  <button class="cat-btn" onclick="scrollTo('tacos')">🌮 Tacos</button>
-  <button class="cat-btn" onclick="scrollTo('carne-asada')">🥩 Carne Asada</button>
-  <button class="cat-btn" onclick="scrollTo('promos')">🎯 Promos</button>
+  <button class="cat-btn active" onclick="irA('tortas', this)">🌯 Tortas</button>
+  <button class="cat-btn" onclick="irA('hamburguesas', this)">🍔 Hamburguesas</button>
+  <button class="cat-btn" onclick="irA('espadas-gringas', this)">⚔️ Espadas/Gringas</button>
+  <button class="cat-btn" onclick="irA('sincronizadas', this)">🫓 Sincronizadas</button>
+  <button class="cat-btn" onclick="irA('parrilladas', this)">🔥 Parrilladas</button>
+  <button class="cat-btn" onclick="irA('tacos', this)">🌮 Tacos</button>
+  <button class="cat-btn" onclick="irA('carne-asada', this)">🥩 Carne Asada</button>
+  <button class="cat-btn" onclick="irA('promos', this)">🎯 Promos</button>
 </nav>
 
 <!-- MAIN -->
@@ -982,11 +982,14 @@ function renderAll() {
 }
 
 // ─── SCROLL A SECCIÓN ───
-function scrollTo(id) {
+function irA(id, btn) {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!el) return;
+  const offset = 32 + 50; // cinta (32px) + nav (50px) aprox
+  const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+  window.scrollTo({ top, behavior: 'smooth' });
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
 }
 
 // ─── MODAL ───
